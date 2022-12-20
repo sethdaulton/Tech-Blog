@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { User, Post, Comment } = require('../../models');
-router.get('/') (req, res) => {
+router.get('/', (req, res) => {
     User.findAll({
         attributes: { exclude: [['password']]}
     })
@@ -9,35 +9,35 @@ router.get('/') (req, res) => {
         console.log(err);
         res.status(500).json(err);
     });
-};
+});
 
 router.get('/:id', (req, res) => {
     User.findOne({
-        attributes: { exclude: ['password'] },
+        
         where: {
             id: req.params.id
-        }
-        }),
+        },
+        attributes: { exclude: ['password'] },
+        
 include: [{
     model: Post,
     attributes: ['id', 'title', 'content', 'created_at']
 }]
-{
-    model: Comment,
-    attributes: ['id', 'comment_text', 'created_at'],
-    include: {
-        model: Post,
-        attributes: ['title']
-    }
-},
-{
-    Model: Post,
-    attributes: ['title'],
-}
+// {
+//     model: Comment,
+//     attributes: ['id', 'comment_text', 'created_at'],
+//     include: {
+//         model: Post,
+//         attributes: ['title']
+//     }
+// },
+// {
+//     Model: Post,
+//     attributes: ['title'],
+// }
 
     })
-
-    .then(dbUserData => {
+.then(dbUserData => {
         if (!dbUserData) {
             res.status(404).json({ message: 'No user found with this id' });
             return;
@@ -48,7 +48,7 @@ include: [{
         console.log(err);
         res.status(500).json(err);
     });
-
+});
     router.post('/', (req, res) => {
 
         User.create({
