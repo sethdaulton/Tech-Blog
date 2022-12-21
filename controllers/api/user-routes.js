@@ -49,26 +49,40 @@ include: [{
         res.status(500).json(err);
     });
 });
-    router.post('/', (req, res) => {
-
-        User.create({
-            username: req.body.username,
-            password: req.body.password
-        })
-    
-        .then(dbUserData => {
-                req.session.save(() => {
-                    req.session.user_id = dbUserData.id;
-                    req.session.username = dbUserData.username;
-                    req.session.loggedIn = true;
-    
-                    res.json(dbUserData);
-                });
+    router.post('/', async (req, res) => {
+        try {
+            const newUser = await User.create({
+                username: req.body.username,
+                password: req.body.password
             })
-            .catch(err => {
-                console.log(err);
-                res.status(500).json(err);
-            });
+            req.session.save(()=>{
+                req.session.user_id = newUser.id;
+                req.session.username = newUser.username;
+                req.session.loggedIn = true;
+                
+                res.json(newUser);
+            })
+        } catch(err){
+            res.status(500).json(err)
+        }
+    //     User.create({
+    //         username: req.body.username,
+    //         password: req.body.password
+    //     })
+    
+    //     .then(dbUserData => {
+    //             req.session.save(() => {
+    //                 req.session.user_id = dbUserData.id;
+    //                 req.session.username = dbUserData.username;
+    //                 req.session.loggedIn = true;
+    
+    //                 res.json(dbUserData);
+    //             });
+    //         })
+    //         .catch(err => {
+    //             console.log(err);
+    //             res.status(500).json(err);
+    //         });
     });
 
     router.post('/login', (req, res) => {
