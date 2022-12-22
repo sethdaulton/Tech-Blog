@@ -12,3 +12,4 @@ The Tech-Blog application allows for creation of user accounts, login/logout fun
 
 ## Screenshot
 
+![Tech Blog home landing Page](./public/assets/images/tech-blog-homepage.png)
