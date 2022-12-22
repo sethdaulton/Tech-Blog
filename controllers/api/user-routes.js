@@ -49,6 +49,7 @@ include: [{
         res.status(500).json(err);
     });
 });
+// signup
     router.post('/', async (req, res) => {
         try {
             const newUser = await User.create({
@@ -84,7 +85,7 @@ include: [{
     //             res.status(500).json(err);
     //         });
     });
-
+// Login
     router.post('/login', (req, res) => {
 
         User.findOne({
